@@ -32,22 +32,18 @@ class User < ApplicationRecord
   end
 
   def User.search(search, user_or_book, how_search)
-      return User.all if search !=""
-
+      
       if how_search =="1"
-        User.where(['name LIKE ?', "#{search}"]).exists? ? User.where(['name LIKE ?', "#{search}"]) : User.all
+       User.where(name: search)
 
       elsif how_search =="2"
-        User.where(['name LIKE ?', "%#{search}"]).exists? ? User.where(['name LIKE ?', "%#{search}"]) : User.all
+        User.where('name LIKE ?', search+'%')
 
       elsif how_search =="3"
-        User.where(['name LIKE ?', "#{search}%"]).exists? ? User.where(['name LIKE ?', "%#{search}"]) : User.all
+        User.where('name LIKE ?', '%'+search)
 
-      elsif how_search =="4"
-        User.where(['name LIKE ?', "%#{search}%"]).exists? ? User.where(['name LIKE ?', "%#{search}"]) : User.all
-
-      else
-        User.all
+      else how_search =="4"
+        User.where('name LIKE ?', '%'+search+'%')
       end
   end
 
